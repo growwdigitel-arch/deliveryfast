@@ -22,12 +22,24 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Set working directory
 WORKDIR /var/www/html
 
-# Force git to use HTTPS instead of SSH (Crucial for private packages)
+# Force git to use HTTPS instead of SSH
 RUN git config --global url."https://github.com/".insteadOf git@github.com:
 
-# Set Composer authentication and allow superuser
+# Set Composer allow superuser
 ENV COMPOSER_ALLOW_SUPERUSER=1
-ENV COMPOSER_AUTH='{"http-basic":{"satis.spatie.be":{"username":"eng.aldmohy@gmail.com","password":"8qaPwNpsQj6qelOoymD9tbeGGG4huNuXNnVzMle1AcVkoHNSHX3Ohib5GsIcN5zD"}}}'
+
+# Create auth.json in both global and local directories
+RUN mkdir -p /root/.composer && \
+    echo '{"http-basic":{"satis.spatie.be":{"username":"eng.aldmohy@gmail.com","password":"8qaPwNpsQj6qelOoymD9tbeGGG4huNuXNnVzMle1AcVkoHNSHX3Ohib5GsIcN5zD"}}}' > /root/.composer/auth.json && \
+    cp /root/.composer/auth.json /var/www/html/auth.json
+
+# Debug: Test credentials directly via curl (check if auth is even valid)
+RUN curl -s -I -u "eng.aldmohy@gmail.com:8qaPwNpsQj6qelOoymD9tbeGGG4huNuXNnVzMle1AcVkoHNSHX3Ohib5GsIcN5zD" \
+    "https://satis.spatie.be/dist/spatie/laravel-medialibrary-pro/spatie-laravel-medialibrary-pro-2b4ac9c62f7398573bf59dee6ace3634acece674-zip-9926c6.zip" | grep "HTTP/" || echo "DEBUG: curl check failed"
+
+# Copy composer files and install dependencies
+COPY composer.json composer.lock /var/www/html/
+RUN composer install --no-dev --optimize-autoloader --no-interaction --no-scripts --prefer-dist -vvv
 
 # Copy composer files and install dependencies
 COPY composer.json composer.lock /var/www/html/
