@@ -22,11 +22,24 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Set working directory
 WORKDIR /var/www/html
 
-# Copy auth.json if it exists (Render Secret File is placed in the root)
-COPY auth.json* /var/www/html/
+# Force git to use HTTPS instead of SSH (Crucial for private packages even with auth.json)
+RUN git config --global url."https://github.com/".insteadOf git@github.com:
 
-# Debug: Check if auth.json exists
-RUN ls -la /var/www/html/auth.json || echo "DEBUG: auth.json NOT FOUND"
+# Copy auth.json from build context if present (Render Secret Files)
+COPY auth.json* /var/www/html/auth.json
+
+# Debug: Check if auth.json was found and show its masked content (checking structure only)
+RUN if [ -f /var/www/html/auth.json ]; then \
+    echo "✅ auth.json found in build context"; \
+    else \
+    echo "❌ auth.json NOT found in build context, checking /etc/secrets/"; \
+    if [ -f /etc/secrets/auth.json ]; then \
+    cp /etc/secrets/auth.json /var/www/html/auth.json; \
+    echo "✅ auth.json copied from /etc/secrets/"; \
+    else \
+    echo "❌ auth.json NOT found in /etc/secrets/ either"; \
+    fi \
+    fi
 
 # Copy composer files and install dependencies
 COPY composer.json composer.lock /var/www/html/
