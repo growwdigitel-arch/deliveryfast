@@ -22,17 +22,23 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Set working directory
 WORKDIR /var/www/html
 
-# Build-time argument for Composer authentication
-ARG COMPOSER_AUTH
-ENV COMPOSER_AUTH=$COMPOSER_AUTH
-
 # Force git to use HTTPS instead of SSH (Crucial for private packages)
 RUN git config --global url."https://github.com/".insteadOf git@github.com:
 
+# Copy auth.json from build context or Render secrets
+COPY auth.json* /var/www/html/
+RUN if [ -f /etc/secrets/auth.json ]; then cp /etc/secrets/auth.json /var/www/html/auth.json; fi
+
+# Verify auth.json structure and presence
+RUN if [ -f auth.json ]; then \
+    echo "✅ auth.json found, applying credentials..."; \
+    else \
+    echo "⚠️ auth.json NOT found - build may fail for private packages"; \
+    fi
+
 # Copy composer files and install dependencies
 COPY composer.json composer.lock /var/www/html/
-RUN composer install --no-dev --optimize-autoloader --no-interaction --no-scripts --prefer-dist || \
-    (echo "Build failed. Ensure COMPOSER_AUTH is set in Render's Docker Build Args." && exit 1)
+RUN composer install --no-dev --optimize-autoloader --no-interaction --no-scripts --prefer-dist
 
 # Copy project files
 COPY . /var/www/html
