@@ -22,12 +22,8 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Set working directory
 WORKDIR /var/www/html
 
-# Build-time argument for Composer authentication
-ARG COMPOSER_AUTH
-ENV COMPOSER_AUTH=$COMPOSER_AUTH
-
-# Force git to use HTTPS instead of SSH (prevents "Host key verification failed" errors)
-RUN git config --global url."https://github.com/".insteadOf git@github.com:
+# Copy auth.json if it exists (Render Secret File is placed in the root)
+COPY auth.json* /var/www/html/
 
 # Copy composer files and install dependencies
 COPY composer.json composer.lock /var/www/html/
