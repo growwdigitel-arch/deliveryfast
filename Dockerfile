@@ -26,9 +26,12 @@ WORKDIR /var/www/html
 ARG COMPOSER_AUTH
 ENV COMPOSER_AUTH=$COMPOSER_AUTH
 
+# Force git to use HTTPS instead of SSH (prevents "Host key verification failed" errors)
+RUN git config --global url."https://github.com/".insteadOf git@github.com:
+
 # Copy composer files and install dependencies
 COPY composer.json composer.lock /var/www/html/
-RUN composer install --no-dev --optimize-autoloader --no-interaction --no-scripts
+RUN composer install --no-dev --optimize-autoloader --no-interaction --no-scripts --prefer-dist
 
 # Copy project files
 COPY . /var/www/html
