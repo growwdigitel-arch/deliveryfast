@@ -22,26 +22,13 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Set working directory
 WORKDIR /var/www/html
 
-# Create auth.json directly with the provided credentials
-# This ensures it exists in the project root where composer install runs
-RUN echo '{\n\
-    "http-basic": {\n\
-    "satis.spatie.be": {\n\
-    "username": "eng.aldmohy@gmail.com",\n\
-    "password": "8qaPwNpsQj6qelOoymD9tbeGGG4huNuXNnVzMle1AcVkoHNSHX3Ohib5GsIcN5zD"\n\
-    }\n\
-    }\n\
-    }' > /var/www/html/auth.json
-
 # Copy composer files and install dependencies
 COPY composer.json composer.lock /var/www/html/
 
-# Install dependencies (verbose logging to see auth usage)
-RUN composer install --no-dev --optimize-autoloader --no-interaction --no-scripts --prefer-dist -vvv
-
-# Copy composer files and install dependencies
-COPY composer.json composer.lock /var/www/html/
-RUN composer install --no-dev --optimize-autoloader --no-interaction --no-scripts --prefer-dist
+# Install dependencies using inline COMPOSER_AUTH to avoid file issues
+# We export the variable just for this command to ensure it's picked up
+RUN export COMPOSER_AUTH='{"http-basic":{"satis.spatie.be":{"username":"eng.aldmohy@gmail.com","password":"8qaPwNpsQj6qelOoymD9tbeGGG4huNuXNnVzMle1AcVkoHNSHX3Ohib5GsIcN5zD"}}}' && \
+    composer install --no-dev --optimize-autoloader --no-interaction --no-scripts --prefer-dist -vvv
 
 # Copy project files
 COPY . /var/www/html
