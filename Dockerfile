@@ -22,21 +22,17 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Set working directory
 WORKDIR /var/www/html
 
+# Build-time argument for Composer authentication
+ARG COMPOSER_AUTH
+ENV COMPOSER_AUTH=$COMPOSER_AUTH
+
 # Force git to use HTTPS instead of SSH (Crucial for private packages)
 RUN git config --global url."https://github.com/".insteadOf git@github.com:
 
-# Build-time arguments for Spatie authentication
-ARG SPATIE_USERNAME
-ARG SPATIE_PASSWORD
-
-# Configure Spatie authentication
-RUN if [ -n "$SPATIE_USERNAME" ]; then \
-    composer config -g http-basic.satis.spatie.be "$SPATIE_USERNAME" "$SPATIE_PASSWORD"; \
-    fi
-
 # Copy composer files and install dependencies
 COPY composer.json composer.lock /var/www/html/
-RUN composer install --no-dev --optimize-autoloader --no-interaction --no-scripts --prefer-dist
+RUN composer install --no-dev --optimize-autoloader --no-interaction --no-scripts --prefer-dist || \
+    (echo "Build failed. Ensure COMPOSER_AUTH is set in Render's Docker Build Args." && exit 1)
 
 # Copy project files
 COPY . /var/www/html
