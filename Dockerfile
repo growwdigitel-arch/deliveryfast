@@ -25,6 +25,9 @@ WORKDIR /var/www/html
 # Copy auth.json if it exists (Render Secret File is placed in the root)
 COPY auth.json* /var/www/html/
 
+# Debug: Check if auth.json exists
+RUN ls -la /var/www/html/auth.json || echo "DEBUG: auth.json NOT FOUND"
+
 # Copy composer files and install dependencies
 COPY composer.json composer.lock /var/www/html/
 RUN composer install --no-dev --optimize-autoloader --no-interaction --no-scripts --prefer-dist
