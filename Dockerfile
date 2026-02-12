@@ -22,13 +22,16 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Set working directory
 WORKDIR /var/www/html
 
+# Force git to use HTTPS instead of SSH (Crucial for private packages)
+RUN git config --global url."https://github.com/".insteadOf git@github.com:
+
+# Set Composer authentication and allow superuser
+ENV COMPOSER_ALLOW_SUPERUSER=1
+ENV COMPOSER_AUTH='{"http-basic":{"satis.spatie.be":{"username":"eng.aldmohy@gmail.com","password":"8qaPwNpsQj6qelOoymD9tbeGGG4huNuXNnVzMle1AcVkoHNSHX3Ohib5GsIcN5zD"}}}'
+
 # Copy composer files and install dependencies
 COPY composer.json composer.lock /var/www/html/
-
-# Install dependencies using inline COMPOSER_AUTH to avoid file issues
-# We export the variable just for this command to ensure it's picked up
-RUN export COMPOSER_AUTH='{"http-basic":{"satis.spatie.be":{"username":"eng.aldmohy@gmail.com","password":"8qaPwNpsQj6qelOoymD9tbeGGG4huNuXNnVzMle1AcVkoHNSHX3Ohib5GsIcN5zD"}}}' && \
-    composer install --no-dev --optimize-autoloader --no-interaction --no-scripts --prefer-dist -vvv
+RUN composer install --no-dev --optimize-autoloader --no-interaction --no-scripts --prefer-dist -vvv
 
 # Copy project files
 COPY . /var/www/html
