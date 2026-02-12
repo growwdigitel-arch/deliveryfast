@@ -30,16 +30,12 @@ RUN git config --global url."https://github.com/".insteadOf git@github.com:
 # TODO: Move to Render "Docker Build Args" once the service is stable.
 RUN composer config -g http-basic.satis.spatie.be "eng.aldmohy@gmail.com" "8qaPwNpsQj6qelOoymD9tbeGGG4huNuXNnVzMle1AcVkoHNSHX3Ohib5GsIcN5zD"
 
-# Copy auth.json from build context or Render secrets
-COPY auth.json* /var/www/html/
-RUN if [ -f /etc/secrets/auth.json ]; then cp /etc/secrets/auth.json /var/www/html/auth.json; fi
+# Debug: Verify that the authentication is set in the global config
+RUN composer config --global --list | grep "satis.spatie.be" || echo "❌ Spatie auth not found in global config"
 
-# Verify auth.json structure and presence
-RUN if [ -f auth.json ]; then \
-    echo "✅ auth.json found, applying credentials..."; \
-    else \
-    echo "⚠️ auth.json NOT found - build may fail for private packages"; \
-    fi
+# Copy composer files and install dependencies
+COPY composer.json composer.lock /var/www/html/
+RUN composer install --no-dev --optimize-autoloader --no-interaction --no-scripts --prefer-dist
 
 # Copy composer files and install dependencies
 COPY composer.json composer.lock /var/www/html/
