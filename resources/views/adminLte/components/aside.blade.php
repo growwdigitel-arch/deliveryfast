@@ -187,17 +187,6 @@
                         </a>
                     </li>
                 @endif
-                @if (auth()->user()->role == 1)
-                    <li class="nav-item">
-                        <a href="{{ fr_route('system.support') }}"
-                            class="nav-link {{ areActiveRoutes(['system.support']) }}">
-                            <i class="fa-sharp fa-solid fa-circle-info"></i>
-                            <p>
-                                {{__('cargo::view.support')}}
-                            </p>
-                        </a>
-                    </li>
-                @endif
 
 
 
