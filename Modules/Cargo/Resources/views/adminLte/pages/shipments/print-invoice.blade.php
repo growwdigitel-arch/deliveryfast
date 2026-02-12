@@ -39,8 +39,11 @@
                     </td>
                     <td valign="middle" align="right">
                         <div style="text-align: right;">
-                            <div style="font-weight: 900; font-size: 42px; color: #0f172a; text-transform: uppercase; letter-spacing: -0.04em; line-height: 1;">{{ __('cargo::view.INVOICE') }}</div>
+                            <div style="font-weight: 900; font-size: 42px; color: #000; text-transform: uppercase; letter-spacing: -0.04em; line-height: 1;">{{ __('cargo::view.INVOICE') }}</div>
                             <div style="font-size: 16px; font-weight: 600; color: #2563eb; margin-top: 8px;">#{{$shipment->code}}</div>
+                            @if($shipment->order_id)
+                                <div style="font-size: 14px; font-weight: 600; color: #64748b; margin-top: 4px;">Order ID: {{$shipment->order_id}}</div>
+                            @endif
                         </div>
                     </td>
                 </tr>

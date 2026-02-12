@@ -69,6 +69,9 @@ $cash_payment = 'cash_payment';
                     </td>
                     <td valign="middle" align="right">
                         <div style="font-weight: 900; font-size: 24px; color: #000;">{{$shipment->code}}</div>
+                        @if($shipment->order_id)
+                            <div style="font-weight: 700; font-size: 14px; color: #64748b; margin-top: 2px;">Order #: {{$shipment->order_id}}</div>
+                        @endif
                     </td>
                 </tr>
             </table>
