@@ -22,23 +22,16 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Set working directory
 WORKDIR /var/www/html
 
-# Force git to use HTTPS instead of SSH (Crucial for private packages even with auth.json)
+# Force git to use HTTPS instead of SSH (Crucial for private packages)
 RUN git config --global url."https://github.com/".insteadOf git@github.com:
 
-# Copy auth.json from build context if present (Render Secret Files)
-COPY auth.json* /var/www/html/auth.json
+# Build-time arguments for Spatie authentication
+ARG SPATIE_USERNAME
+ARG SPATIE_PASSWORD
 
-# Debug: Check if auth.json was found and show its masked content (checking structure only)
-RUN if [ -f /var/www/html/auth.json ]; then \
-    echo "✅ auth.json found in build context"; \
-    else \
-    echo "❌ auth.json NOT found in build context, checking /etc/secrets/"; \
-    if [ -f /etc/secrets/auth.json ]; then \
-    cp /etc/secrets/auth.json /var/www/html/auth.json; \
-    echo "✅ auth.json copied from /etc/secrets/"; \
-    else \
-    echo "❌ auth.json NOT found in /etc/secrets/ either"; \
-    fi \
+# Configure Spatie authentication
+RUN if [ -n "$SPATIE_USERNAME" ]; then \
+    composer config -g http-basic.satis.spatie.be "$SPATIE_USERNAME" "$SPATIE_PASSWORD"; \
     fi
 
 # Copy composer files and install dependencies
