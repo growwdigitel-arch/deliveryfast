@@ -22,19 +22,23 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Set working directory
 WORKDIR /var/www/html
 
-# Declare ARGs for Spatie credentials (Render pipes Env Vars into these automatically)
-ARG SPATIE_USERNAME
-ARG SPATIE_PASSWORD
-
 # Force git to use HTTPS instead of SSH (Crucial for private packages)
 RUN git config --global url."https://github.com/".insteadOf git@github.com:
 
-# Configure Spatie authentication gobally using the provided credentials
-RUN if [ -n "$SPATIE_USERNAME" ]; then \
-    composer config --global http-basic.satis.spatie.be "$SPATIE_USERNAME" "$SPATIE_PASSWORD"; \
-    echo "✅ Spatie credentials configured"; \
+# Configure Spatie authentication DIRECTLY (Temporary fix to unblock build)
+# WARNING: This exposes credentials in the Docker image history.
+# TODO: Move to Render "Docker Build Args" once the service is stable.
+RUN composer config -g http-basic.satis.spatie.be "eng.aldmohy@gmail.com" "8qaPwNpsQj6qelOoymD9tbeGGG4huNuXNnVzMle1AcVkoHNSHX3Ohib5GsIcN5zD"
+
+# Copy auth.json from build context or Render secrets
+COPY auth.json* /var/www/html/
+RUN if [ -f /etc/secrets/auth.json ]; then cp /etc/secrets/auth.json /var/www/html/auth.json; fi
+
+# Verify auth.json structure and presence
+RUN if [ -f auth.json ]; then \
+    echo "✅ auth.json found, applying credentials..."; \
     else \
-    echo "⚠️ SPATIE_USERNAME not set - build may fail for private packages"; \
+    echo "⚠️ auth.json NOT found - build may fail for private packages"; \
     fi
 
 # Copy composer files and install dependencies
