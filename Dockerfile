@@ -22,8 +22,9 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Set working directory
 WORKDIR /var/www/html
 
-# Copy auth.json first (needed for Spatie private packages)
-COPY auth.json /var/www/html/auth.json
+# Build-time argument for Composer authentication
+ARG COMPOSER_AUTH
+ENV COMPOSER_AUTH=$COMPOSER_AUTH
 
 # Copy composer files and install dependencies
 COPY composer.json composer.lock /var/www/html/
