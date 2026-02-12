@@ -22,20 +22,22 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Set working directory
 WORKDIR /var/www/html
 
-# Force git to use HTTPS instead of SSH (Crucial for private packages)
-RUN git config --global url."https://github.com/".insteadOf git@github.com:
-
-# Configure Spatie authentication DIRECTLY (Temporary fix to unblock build)
-# WARNING: This exposes credentials in the Docker image history.
-# TODO: Move to Render "Docker Build Args" once the service is stable.
-RUN composer config -g http-basic.satis.spatie.be "eng.aldmohy@gmail.com" "8qaPwNpsQj6qelOoymD9tbeGGG4huNuXNnVzMle1AcVkoHNSHX3Ohib5GsIcN5zD"
-
-# Debug: Verify that the authentication is set in the global config
-RUN composer config --global --list | grep "satis.spatie.be" || echo "❌ Spatie auth not found in global config"
+# Create auth.json directly with the provided credentials
+# This ensures it exists in the project root where composer install runs
+RUN echo '{\n\
+    "http-basic": {\n\
+    "satis.spatie.be": {\n\
+    "username": "eng.aldmohy@gmail.com",\n\
+    "password": "8qaPwNpsQj6qelOoymD9tbeGGG4huNuXNnVzMle1AcVkoHNSHX3Ohib5GsIcN5zD"\n\
+    }\n\
+    }\n\
+    }' > /var/www/html/auth.json
 
 # Copy composer files and install dependencies
 COPY composer.json composer.lock /var/www/html/
-RUN composer install --no-dev --optimize-autoloader --no-interaction --no-scripts --prefer-dist
+
+# Install dependencies (verbose logging to see auth usage)
+RUN composer install --no-dev --optimize-autoloader --no-interaction --no-scripts --prefer-dist -vvv
 
 # Copy composer files and install dependencies
 COPY composer.json composer.lock /var/www/html/
