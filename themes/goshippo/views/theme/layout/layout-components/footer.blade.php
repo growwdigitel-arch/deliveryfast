@@ -51,13 +51,13 @@
                         <div style="width: 2rem; height: 2rem; border-radius: 0.5rem; background-color: #1e293b; display: flex; align-items: center; justify-content: center; color: #3b82f6;">
                             <i class="fas fa-phone" style="font-size: 0.75rem;"></i>
                         </div>
-                        <span style="font-weight: 500; font-size: 1rem; color: #94a3b8;">+91 1800-FAST-DEL</span>
+                        <span style="font-weight: 500; font-size: 1rem; color: #94a3b8;">+91 90217 46581</span>
                     </li>
                     <li style="display: flex; align-items: flex-start; gap: 0.75rem; color: #94a3b8; margin-bottom: 0;">
                         <div style="width: 2rem; height: 2rem; border-radius: 0.5rem; background-color: #1e293b; display: flex; align-items: center; justify-content: center; color: #3b82f6; margin-top: 0.25rem; flex-shrink: 0;">
                             <i class="fas fa-map-marker-alt" style="font-size: 0.75rem;"></i>
                         </div>
-                        <span style="font-weight: 500; line-height: 1.4; font-size: 1rem; color: #94a3b8;">Global Industrial Hub,<br>Terminal VII, India</span>
+                        <span style="font-weight: 500; line-height: 1.4; font-size: 1rem; color: #94a3b8;">Unit 402, B-Wing, 4th Floor, Vedanta 779,<br>Makwana Road, Marol Naka, Andheri East,<br>Mumbai - 400059 - Maharashtra. India</span>
                     </li>
                 </ul>
              </div>

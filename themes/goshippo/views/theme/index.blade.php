@@ -32,13 +32,6 @@
             50% { transform: translateY(-20px) scale(1.1); }
             100% { transform: translateY(0px) scale(1); }
         }
-        .animate-spin-slow {
-            animation: spin 30s linear infinite;
-        }
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
     </style>
 </head>
 <body class="bg-slate-50 text-gray-800 antialiased overflow-x-hidden">
@@ -81,64 +74,56 @@
     </nav>
 
     <!-- Hero Section -->
-    <div class="relative bg-white pt-20 overflow-hidden min-h-[90vh] flex items-center">
+    <div class="relative bg-white pt-20 overflow-hidden">
         <!-- Background Elements -->
-        <div class="absolute top-0 right-0 w-1/2 h-full overflow-hidden z-0 hidden lg:block">
-             <div class="absolute inset-0 bg-gradient-to-l from-white via-transparent to-transparent z-10"></div>
-             <img src="{{ asset('assets/img/premium/logistics_hero_modern_1770892930794.png') }}" alt="Logistics Tech" class="w-full h-full object-cover object-center scale-110 opacity-90">
-        </div>
-        
-        <div class="absolute top-0 left-0 w-full h-full overflow-hidden z-0 lg:hidden opacity-20">
-             <img src="{{ asset('assets/img/premium/logistics_hero_modern_1770892930794.png') }}" alt="Logistics Tech" class="w-full h-full object-cover">
+        <div class="absolute top-0 left-0 w-full h-full overflow-hidden z-0">
+             <div class="blob bg-blue-300 w-96 h-96 rounded-full -top-20 -left-20"></div>
+             <div class="blob bg-indigo-200 w-80 h-80 rounded-full top-40 right-10 animation-delay-2000"></div>
+             <div class="blob bg-purple-100 w-64 h-64 rounded-full bottom-10 left-1/3 animation-delay-4000"></div>
         </div>
 
-        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-20 z-10 w-full">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                <div data-aos="fade-right" data-aos-duration="1200">
-                    <span class="inline-flex items-center gap-2 py-1.5 px-4 rounded-full bg-blue-50 text-blue-700 text-sm font-bold mb-6 border border-blue-100 uppercase tracking-wider">
-                        <span class="relative flex h-2 w-2">
-                          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-                          <span class="relative inline-flex rounded-full h-2 w-2 bg-blue-600"></span>
-                        </span>
-                        Global Logistics Excellence
-                    </span>
-                    <h1 class="text-5xl tracking-tight font-[900] text-slate-900 sm:text-6xl md:text-7xl mb-8 leading-[1.1]">
-                        The Smart Way to <br>
-                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-500">Move Anything</span>
-                    </h1>
-                    <p class="mt-6 max-w-xl text-xl text-slate-500 mb-12 leading-relaxed font-medium">
-                        End-to-end logistics powered by AI. Experience lightning-fast delivery with real-time intelligence for your business.
-                    </p>
-                    
-                    <!-- Tracking Form -->
-                    <div class="max-w-xl" data-aos="fade-up" data-aos-delay="400">
-                        <div class="bg-white p-2.5 rounded-2xl shadow-[0_20px_50px_rgba(37,99,235,0.15)] border border-slate-100 flex flex-col sm:flex-row gap-2 relative z-20">
-                            <div class="relative flex-grow">
-                                 <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                                    <svg class="h-6 w-6 text-blue-500" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                                </div>
-                                <form action="{{ route('shipments.tracking') }}" method="GET" class="w-full" id="trackingForm">
-                                    <input type="text" name="code" id="trackingInput" class="block w-full pl-12 pr-4 py-4 border-none bg-transparent rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-0 text-lg font-bold" placeholder="Tracking Number">
-                                </form>
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-24 lg:pt-32 lg:pb-40 z-10">
+            <div class="text-center max-w-4xl mx-auto" data-aos="fade-up" data-aos-duration="1000">
+                <span class="inline-block py-1 px-3 rounded-full bg-blue-50 text-blue-600 text-sm font-semibold mb-4 tracking-wide uppercase">Global Shipping Solutions</span>
+                <h1 class="text-5xl tracking-tight font-extrabold text-slate-900 sm:text-6xl md:text-7xl mb-6 leading-tight">
+                    Deliver all over <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">India</span><br>
+                    <span class="text-3xl sm:text-5xl md:text-6xl text-slate-400">and beyond.</span>
+                </h1>
+                <p class="mt-6 max-w-2xl mx-auto text-xl text-slate-500 mb-10 leading-relaxed">
+                    Experience the next generation of logistics. Fast, reliable, and integrated with your favorite eCommerce platforms.
+                </p>
+                
+                <!-- Tracking Form -->
+                <div class="mt-10 max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="200">
+                    <div class="glass-card p-2 rounded-2xl shadow-2xl flex flex-col sm:flex-row gap-2 relative z-20">
+                        <div class="relative flex-grow">
+                             <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                <svg class="h-6 w-6 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                             </div>
-                            <button type="button" onclick="validateAndTrack()" class="inline-flex items-center justify-center px-10 py-4 border border-transparent text-lg font-bold rounded-xl text-white bg-blue-600 hover:bg-blue-700 shadow-lg shadow-blue-500/25 transition-all transform hover:-translate-y-0.5 active:translate-y-0">
-                                Track Now
-                            </button>
+                            <form action="{{ route('shipments.tracking') }}" method="GET" class="w-full" id="trackingForm">
+                                <input type="text" name="code" id="trackingInput" class="block w-full pl-12 pr-4 py-4 border-none bg-transparent rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-0 text-lg font-medium" placeholder="Enter your Tracking Number">
+                            </form>
                         </div>
-                        
-                        <!-- AJAX Error Alert -->
-                        <div id="trackingErrorAlert" class="hidden mt-4 p-4 bg-red-50 border border-red-100 rounded-xl flex items-center gap-3" data-aos="fade-in">
-                            <svg class="w-5 h-5 text-red-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
-                            <p id="trackingErrorMessage" class="text-red-700 font-bold text-sm"></p>
-                        </div>
-
-                        <p class="mt-6 text-sm text-slate-400 flex items-center gap-2">
-                            <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
-                            Trusted by 10,000+ verified businesses in India
-                        </p>
+                        <button type="button" onclick="validateAndTrack()" class="inline-flex items-center justify-center px-8 py-4 border border-transparent text-lg font-semibold rounded-xl text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 shadow-lg shadow-blue-500/30 transition-all transform hover:scale-105 active:scale-95">
+                            Track Now
+                        </button>
                     </div>
+                    
+                    <!-- AJAX Error Alert -->
+                    <div id="trackingErrorAlert" class="hidden mt-4 p-4 bg-red-50 border border-red-100 rounded-xl flex items-center gap-3 animate-pulse" data-aos="fade-in">
+                        <i class="fas fa-exclamation-circle text-red-500 text-lg"></i>
+                        <p id="trackingErrorMessage" class="text-red-700 font-bold text-sm"></p>
+                    </div>
+
+                    @if(session('error'))
+                        <div class="mt-4 p-4 bg-red-50 border border-red-100 rounded-xl flex items-center gap-3 animate-pulse" data-aos="fade-in">
+                            <i class="fas fa-exclamation-circle text-red-500 text-lg"></i>
+                            <p class="text-red-700 font-bold text-sm">{{ session('error') }}</p>
+                        </div>
+                    @endif
+
+                    <p class="mt-4 text-sm text-slate-500">Supported by all major verified carriers.</p>
                 </div>
-                <div class="hidden lg:block"></div>
             </div>
         </div>
     </div>
@@ -249,60 +234,56 @@
     </div>
 
     <!-- Features Grid -->
-    <div class="py-32 bg-slate-50 relative overflow-hidden">
-        <!-- Floating Globe Background -->
-        <div class="absolute -right-40 -top-40 opacity-20 pointer-events-none">
-            <img src="{{ asset('assets/img/premium/global_shipping_globe_1770892975192.png') }}" alt="Global" class="w-[600px] h-[600px] object-contain animate-spin-slow">
+    <div class="py-24 bg-slate-50 relative overflow-hidden">
+        <div class="absolute right-0 top-0 text-slate-100 -mr-20 -mt-20 transform rotate-12">
+            <svg class="w-96 h-96" fill="currentColor" viewBox="0 0 24 24"><path d="M21 16.5C21 16.88 20.79 17.21 20.47 17.38L12.57 21.82C12.41 21.94 12.21 22 12 22C11.79 22 11.59 21.94 11.43 21.82L3.53 17.38C3.21 17.21 3 16.88 3 16.5V7.5C3 7.12 3.21 6.79 3.53 6.62L11.43 2.18C11.59 2.06 11.79 2 12 2C12.21 2 12.41 2.06 12.57 2.18L20.47 6.62C20.79 6.79 21 7.12 21 7.5V16.5Z" /></svg>
         </div>
-        
+
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div class="text-center mb-24">
-                <span class="text-blue-600 font-bold tracking-[0.2em] uppercase text-sm mb-4 block">Technology Driven</span>
-                <h2 class="text-4xl md:text-5xl font-[900] text-slate-900 leading-tight">
-                    Everything you need to <br>ship smarter
-                </h2>
+            <div class="text-center mb-20">
+                <h2 class="text-base text-blue-600 font-bold tracking-wide uppercase mb-2">Premium Features</h2>
+                <p class="text-4xl font-extrabold text-slate-900">
+                    Everything you need to ship smarter
+                </p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <!-- Card 1 -->
-                <div class="group bg-white p-10 rounded-[2.5rem] shadow-xl hover:shadow-[0_30px_60px_-15px_rgba(37,99,235,0.2)] transition-all duration-500 transform hover:-translate-y-2 border border-slate-100" data-aos="fade-up" data-aos-delay="0">
-                    <div class="h-20 w-20 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center mb-8 group-hover:bg-blue-600 group-hover:text-white transition-colors duration-500 shadow-inner">
-                        <svg class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <div class="bg-white p-8 rounded-2xl shadow-lg border border-slate-100 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1" data-aos="fade-up" data-aos-delay="0">
+                    <div class="h-14 w-14 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center mb-6">
+                        <svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
                         </svg>
                     </div>
-                    <h3 class="text-2xl font-extrabold text-slate-900 mb-4">Super Fast Delivery</h3>
-                    <p class="text-slate-500 leading-relaxed text-lg">
+                    <h3 class="text-xl font-bold text-slate-900 mb-3">Super Fast Delivery</h3>
+                    <p class="text-slate-500 leading-relaxed">
                         We prioritize speed. Our optimized routes and AI-driven logistics ensure your packages arrive faster than ever.
                     </p>
                 </div>
 
                 <!-- Card 2 -->
-                <div class="group bg-slate-900 p-10 rounded-[2.5rem] shadow-2xl hover:shadow-[0_30px_60px_-15px_rgba(37,99,235,0.3)] transition-all duration-500 transform hover:-translate-y-2 relative overflow-hidden" data-aos="fade-up" data-aos-delay="100">
-                    <div class="absolute -right-10 -bottom-10 opacity-30 group-hover:opacity-50 transition-opacity">
-                        <img src="{{ asset('assets/img/premium/tracking_feature_3d_1770892958524.png') }}" class="w-48 h-48 object-contain">
-                    </div>
-                    <div class="h-20 w-20 rounded-2xl bg-blue-600 text-white flex items-center justify-center mb-8 shadow-lg shadow-blue-500/30">
-                        <svg class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <div class="bg-white p-8 rounded-2xl shadow-lg border border-slate-100 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1" data-aos="fade-up" data-aos-delay="100">
+                    <div class="h-14 w-14 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center mb-6">
+                        <svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
                     </div>
-                    <h3 class="text-2xl font-extrabold text-white mb-4">Real-Time Tracking</h3>
-                    <p class="text-slate-400 leading-relaxed text-lg">
-                        Track every step with millisecond accuracy. Get notified via SMS or WhatsApp the moment your package moves.
+                    <h3 class="text-xl font-bold text-slate-900 mb-3">Live Real-Time Tracking</h3>
+                    <p class="text-slate-500 leading-relaxed">
+                        Track every step. Get notified via SMS, Email, or WhatsApp the moment your package moves.
                     </p>
                 </div>
 
                 <!-- Card 3 -->
-                <div class="group bg-white p-10 rounded-[2.5rem] shadow-xl hover:shadow-[0_30px_60px_-15px_rgba(79,70,229,0.2)] transition-all duration-500 transform hover:-translate-y-2 border border-slate-100" data-aos="fade-up" data-aos-delay="200">
-                    <div class="h-20 w-20 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center mb-8 group-hover:bg-indigo-600 group-hover:text-white transition-colors duration-500 shadow-inner">
-                        <svg class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <div class="bg-white p-8 rounded-2xl shadow-lg border border-slate-100 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1" data-aos="fade-up" data-aos-delay="200">
+                    <div class="h-14 w-14 rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center mb-6">
+                        <svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
                         </svg>
                     </div>
-                    <h3 class="text-2xl font-extrabold text-slate-900 mb-4">Cash on Delivery</h3>
-                    <p class="text-slate-500 leading-relaxed text-lg">
-                        Boost your sales with our reliable COD handling. We collect payments and remit them to you with 24h settlements.
+                    <h3 class="text-xl font-bold text-slate-900 mb-3">Cash on Delivery</h3>
+                    <p class="text-slate-500 leading-relaxed">
+                        Boost your sales with our reliable COD handling. We collect payments and remit them to you weekly.
                     </p>
                 </div>
             </div>
@@ -365,7 +346,7 @@
                             </div>
                             <div>
                                 <h4 class="font-bold text-slate-900">Direct Support</h4>
-                                <p class="text-slate-500">+91 1800-FAST-DEL</p>
+                                <p class="text-slate-500">+91 90217 46581</p>
                             </div>
                         </div>
                         <div class="flex items-center gap-4">
